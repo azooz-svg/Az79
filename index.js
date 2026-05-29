@@ -1,5 +1,4 @@
-const { Client, GatewayIntentBits, PermissionFlagsBits, EmbedBuilder } = require('discord.js');
-
+const { Client, GatewayIntentBits, PermissionFlagsBits, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -671,5 +670,125 @@ if (command === 'تخمين') {
     }
   });
 }
+  // ========== أمر -اوامر ==========
+if (command === 'اوامر') {
+  const row = new ActionRowBuilder().addComponents(
+    new ButtonBuilder()
+      .setCustomId('عامة')
+      .setLabel('⚙️ أوامر عامة')
+      .setStyle(ButtonStyle.Primary),
+    new ButtonBuilder()
+      .setCustomId('العاب')
+      .setLabel('🎮 الألعاب')
+      .setStyle(ButtonStyle.Success),
+    new ButtonBuilder()
+      .setCustomId('تكت')
+      .setLabel('💬 أوامر كت')
+      .setStyle(ButtonStyle.Secondary),
+    new ButtonBuilder()
+      .setCustomId('مودريشن')
+      .setLabel('🛡️ مودريشن')
+      .setStyle(ButtonStyle.Danger),
+  );
+
+  const embed = new EmbedBuilder()
+    .setColor('#7c3aed')
+    .setTitle('📋 قائمة الأوامر')
+    .setDescription('اختر القسم اللي تبي تشوف أوامره 👇');
+
+  await message.reply({ embeds: [embed], components: [row] });
+}
+
+// ========== أضف هذا بعد client.on('messageCreate') وقبل client.login ==========
+
+client.on('interactionCreate', async interaction => {
+  if (!interaction.isButton()) return;
+
+  let embed;
+
+  if (interaction.customId === 'عامة') {
+    embed = new EmbedBuilder()
+      .setColor('#7c3aed')
+      .setTitle('⚙️ الأوامر العامة')
+      .addFields(
+        { name: '`-ping`', value: 'تتحقق إذا البوت شغال' },
+        { name: '`-help`', value: 'قائمة الأوامر القديمة' },
+        { name: '`-info`', value: 'معلومات السيرفر (الاسم وعدد الأعضاء)' },
+        { name: '`-يوزر`', value: 'معلوماتك أو معلومات شخص آخر\nمثال: `-يوزر` أو `-يوزر @شخص`' },
+        { name: '`-نقاطي`', value: 'تشوف كم نقطة عندك' },
+        { name: '`-لوحة`', value: 'تشوف أعلى 5 لاعبين بالنقاط' },
+      );
+  }
+
+  else if (interaction.customId === 'العاب') {
+    embed = new EmbedBuilder()
+      .setColor('#16a34a')
+      .setTitle('🎮 الألعاب')
+      .addFields(
+        { name: '`-عواصم`', value: 'سؤال عن عاصمة دولة، أول واحد يجاوب يكسب نقطة ⏱️ 30 ثانية' },
+        { name: '`-اسئله`', value: 'سؤال ثقافي متنوع، أول واحد يجاوب يكسب نقطة ⏱️ 30 ثانية' },
+        { name: '`-عكس`', value: 'اعكس الكلمة المعطاة ⏱️ 20 ثانية' },
+        { name: '`-مفرد`', value: 'اكتب مفرد الكلمة الجمع ⏱️ 20 ثانية' },
+        { name: '`-تخمين`', value: 'خمّن رقم بين 1 و 100، عندك 5 محاولات ⏱️ 60 ثانية\nبيقولك أكبر أو أصغر بعد كل محاولة' },
+        { name: '`-كت`', value: 'سؤال شخصي عشوائي للترفيه 😄' },
+      );
+  }
+
+  else if (interaction.customId === 'تكت') {
+});
+client.on('interactionCreate', async interaction => {
+  if (!interaction.isButton()) return;
+
+  let embed;
+
+  if (interaction.customId === 'عامة') {
+    embed = new EmbedBuilder()
+      .setColor('#7c3aed')
+      .setTitle('⚙️ الأوامر العامة')
+      .addFields(
+        { name: '`-ping`', value: 'تتحقق إذا البوت شغال' },
+        { name: '`-help`', value: 'قائمة الأوامر القديمة' },
+        { name: '`-info`', value: 'معلومات السيرفر' },
+        { name: '`-يوزر`', value: 'معلوماتك أو معلومات شخص\nمثال: `-يوزر @شخص`' },
+        { name: '`-نقاطي`', value: 'تشوف كم نقطة عندك' },
+        { name: '`-لوحة`', value: 'أعلى 5 لاعبين بالنقاط' },
+      );
+  }
+  else if (interaction.customId === 'العاب') {
+    embed = new EmbedBuilder()
+      .setColor('#16a34a')
+      .setTitle('🎮 الألعاب')
+      .addFields(
+        { name: '`-عواصم`', value: 'سؤال عواصم ⏱️ 30 ثانية' },
+        { name: '`-اسئله`', value: 'سؤال ثقافي ⏱️ 30 ثانية' },
+        { name: '`-عكس`', value: 'اعكس الكلمة ⏱️ 20 ثانية' },
+        { name: '`-مفرد`', value: 'مفرد الجمع ⏱️ 20 ثانية' },
+        { name: '`-تخمين`', value: 'خمّن رقم 1-100، 5 محاولات' },
+        { name: '`-كت`', value: 'سؤال شخصي عشوائي 😄' },
+      );
+  }
+  else if (interaction.customId === 'تكت') {
+    embed = new EmbedBuilder()
+      .setColor('#6b7280')
+      .setTitle('💬 أوامر كت')
+      .addFields(
+        { name: '`-كت`', value: 'يطرح سؤال شخصي عشوائي عليك' },
+      );
+  }
+  else if (interaction.customId === 'مودريشن') {
+    embed = new EmbedBuilder()
+      .setColor('#dc2626')
+      .setTitle('🛡️ أوامر المودريشن')
+      .setDescription('⚠️ للمشرفين فقط')
+      .addFields(
+        { name: '`-ban @شخص`', value: 'حظر عضو' },
+        { name: '`-kick @شخص`', value: 'طرد عضو' },
+        { name: '`-mute @شخص`', value: 'كتم عضو' },
+        { name: '`-time @شخص المدة`', value: 'تايم اوت' },
+        { name: '`-dm @شخص الرسالة`', value: 'رسالة خاصة' },
+      );
+  }
+
+  await interaction.reply({ embeds: [embed], ephemeral: true });
 });
 client.login(process.env.TOKEN);
