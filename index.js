@@ -499,3 +499,4 @@ client.on('messageCreate', async message => {
 
   if (command === 'يوزر') {
     const target = message.mentions.members.first() || message.member;
+  }
