@@ -11,6 +11,7 @@ const client = new Client({
 });
 
 const points = {};
+const activeGames = {};
 
 // ========== قوائم الأسئلة ==========
 const عواصم = [
@@ -500,5 +501,175 @@ client.on('messageCreate', async message => {
   if (command === 'يوزر') {
     const target = message.mentions.members.first() || message.member;
   }
+  const activeGames = {}; // لحفظ حالة الألعاب النشطة
+
+// ========== عواصم ==========
+if (command === 'عواصم') {
+  const سؤال = عواصم[Math.floor(Math.random() * عواصم.length)];
+  const channelId = message.channel.id;
+  activeGames[channelId] = { answer: سؤال.a, type: 'عواصم', userId: null };
+
+  message.reply(`🌍 **سؤال عواصم:**\n${سؤال.q}\n\n⏱️ عندك 30 ثانية!`);
+
+  const filter = m => !m.author.bot;
+  const collector = message.channel.createMessageCollector({ filter, time: 30000 });
+
+  collector.on('collect', m => {
+    if (!activeGames[channelId]) return collector.stop();
+    if (m.content.trim() === activeGames[channelId].answer) {
+      points[m.author.id] = (points[m.author.id] || 0) + 1;
+      delete activeGames[channelId];
+      m.reply(`✅ صح! الجواب: **${سؤال.a}** 🎉 +1 نقطة`);
+      collector.stop('answered');
+    }
+  });
+
+  collector.on('end', (_, reason) => {
+    if (reason !== 'answered' && activeGames[channelId]) {
+      delete activeGames[channelId];
+      message.channel.send(`⏰ انتهى الوقت! الجواب كان: **${سؤال.a}**`);
+    }
+  });
+}
+
+// ========== اسئله ==========
+if (command === 'اسئله') {
+  const سؤال = أسئلة[Math.floor(Math.random() * أسئلة.length)];
+  const channelId = message.channel.id;
+  activeGames[channelId] = { answer: سؤال.a, type: 'اسئله' };
+
+  message.reply(`❓ **سؤال ثقافي:**\n${سؤال.q}\n\n⏱️ عندك 30 ثانية!`);
+
+  const filter = m => !m.author.bot;
+  const collector = message.channel.createMessageCollector({ filter, time: 30000 });
+
+  collector.on('collect', m => {
+    if (!activeGames[channelId]) return collector.stop();
+    if (m.content.trim() === activeGames[channelId].answer) {
+      points[m.author.id] = (points[m.author.id] || 0) + 1;
+      delete activeGames[channelId];
+      m.reply(`✅ صح! الجواب: **${سؤال.a}** 🎉 +1 نقطة`);
+      collector.stop('answered');
+    }
+  });
+
+  collector.on('end', (_, reason) => {
+    if (reason !== 'answered' && activeGames[channelId]) {
+      delete activeGames[channelId];
+      message.channel.send(`⏰ انتهى الوقت! الجواب كان: **${سؤال.a}**`);
+    }
+  });
+}
+
+// ========== عكس ==========
+if (command === 'عكس') {
+  const سؤال = كلماتمعكوسة[Math.floor(Math.random() * كلماتمعكوسة.length)];
+  const channelId = message.channel.id;
+  activeGames[channelId] = { answer: سؤال.a, type: 'عكس' };
+
+  message.reply(`🔄 **اعكس الكلمة:**\n${سؤال.q}\n\n⏱️ عندك 20 ثانية!`);
+
+  const filter = m => !m.author.bot;
+  const collector = message.channel.createMessageCollector({ filter, time: 20000 });
+
+  collector.on('collect', m => {
+    if (!activeGames[channelId]) return collector.stop();
+    if (m.content.trim() === activeGames[channelId].answer) {
+      points[m.author.id] = (points[m.author.id] || 0) + 1;
+      delete activeGames[channelId];
+      m.reply(`✅ صح! الجواب: **${سؤال.a}** 🎉 +1 نقطة`);
+      collector.stop('answered');
+    }
+  });
+
+  collector.on('end', (_, reason) => {
+    if (reason !== 'answered' && activeGames[channelId]) {
+      delete activeGames[channelId];
+      message.channel.send(`⏰ انتهى الوقت! الجواب كان: **${سؤال.a}**`);
+    }
+  });
+}
+
+// ========== مفرد ==========
+if (command === 'مفرد') {
+  const سؤال = مفردات[Math.floor(Math.random() * مفردات.length)];
+  const channelId = message.channel.id;
+  activeGames[channelId] = { answer: سؤال.a, type: 'مفرد' };
+
+  message.reply(`📚 **ما المفرد؟**\n${سؤال.q}\n\n⏱️ عندك 20 ثانية!`);
+
+  const filter = m => !m.author.bot;
+  const collector = message.channel.createMessageCollector({ filter, time: 20000 });
+
+  collector.on('collect', m => {
+    if (!activeGames[channelId]) return collector.stop();
+    if (m.content.trim() === activeGames[channelId].answer) {
+      points[m.author.id] = (points[m.author.id] || 0) + 1;
+      delete activeGames[channelId];
+      m.reply(`✅ صح! الجواب: **${سؤال.a}** 🎉 +1 نقطة`);
+      collector.stop('answered');
+    }
+  });
+
+  collector.on('end', (_, reason) => {
+    if (reason !== 'answered' && activeGames[channelId]) {
+      delete activeGames[channelId];
+      message.channel.send(`⏰ انتهى الوقت! الجواب كان: **${سؤال.a}**`);
+    }
+  });
+}
+
+// ========== كت ==========
+if (command === 'كت') {
+  const سؤال = أسئلةكت[Math.floor(Math.random() * أسئلةكت.length)];
+  message.reply(`💬 **سؤال شخصي لـ ${message.author.username}:**\n${سؤال}`);
+}
+
+// ========== تخمين ==========
+if (command === 'تخمين') {
+  const channelId = message.channel.id;
+
+  if (activeGames[channelId]?.type === 'تخمين') {
+    return message.reply('⚠️ في لعبة تخمين شغالة الحين! خمّن رقم بين 1 و 100');
+  }
+
+  const رقم = Math.floor(Math.random() * 100) + 1;
+  activeGames[channelId] = { answer: رقم, type: 'تخمين', attempts: 0 };
+
+  message.reply('🎯 **لعبة التخمين!**\nخمّن رقم بين **1 و 100**\nعندك 5 محاولات! 🔢');
+
+  const filter = m => !m.author.bot && !isNaN(m.content.trim());
+  const collector = message.channel.createMessageCollector({ filter, time: 60000 });
+
+  collector.on('collect', m => {
+    if (!activeGames[channelId]) return collector.stop();
+
+    const guess = parseInt(m.content.trim());
+    activeGames[channelId].attempts++;
+    const attempts = activeGames[channelId].attempts;
+
+    if (guess === رقم) {
+      points[m.author.id] = (points[m.author.id] || 0) + 2;
+      delete activeGames[channelId];
+      m.reply(`🎉 صح! الرقم كان **${رقم}** وخمّنته في ${attempts} محاولة! +2 نقطة`);
+      collector.stop('answered');
+    } else if (attempts >= 5) {
+      delete activeGames[channelId];
+      m.reply(`😔 خلصت المحاولات! الرقم كان **${رقم}**`);
+      collector.stop('failed');
+    } else if (guess < رقم) {
+      m.reply(`📈 الرقم **أكبر** من ${guess}! باقي ${5 - attempts} محاولة`);
+    } else {
+      m.reply(`📉 الرقم **أصغر** من ${guess}! باقي ${5 - attempts} محاولة`);
+    }
+  });
+
+  collector.on('end', (_, reason) => {
+    if (reason !== 'answered' && reason !== 'failed' && activeGames[channelId]) {
+      delete activeGames[channelId];
+      message.channel.send(`⏰ انتهى الوقت! الرقم كان **${رقم}**`);
+    }
+  });
+}
 });
 client.login(process.env.TOKEN);
