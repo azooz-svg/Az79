@@ -501,3 +501,4 @@ client.on('messageCreate', async message => {
     const target = message.mentions.members.first() || message.member;
   }
 });
+client.login(process.env.MTUwOTU2NjY2OTc0MjE0NTczOA.G4sD_k.myUAYX_V0n74vymJxxj5R-baN6gtOEBDy66J4c);
