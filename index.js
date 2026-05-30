@@ -734,13 +734,6 @@ client.on('interactionCreate', async interaction => {
       );
   }
 
-  else if (interaction.customId === 'تكت') {
-});
-client.on('interactionCreate', async interaction => {
-  if (!interaction.isButton()) return;
-
-  let embed;
-
   if (interaction.customId === 'عامة') {
     embed = new EmbedBuilder()
       .setColor('#7c3aed')
