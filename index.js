@@ -785,3 +785,4 @@ client.on('interactionCreate', async interaction => {
   await interaction.reply({ embeds: [embed], ephemeral: true });
 });
 client.login(process.env.TOKEN);
+});
